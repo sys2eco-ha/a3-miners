@@ -1,0 +1,548 @@
+[    0.000000] Booting Linux on physical CPU 0x0
+[    0.000000] Initializing cgroup subsys cpu
+[    0.000000] Linux version 3.8.13 (xxl@armdev01) (gcc version 4.7.4 20130626 (prerelease) (Linaro GCC 4.7-2013.07) ) #22 SMP Tue Dec 2 15:26:11 CST 2014
+[    0.000000] CPU: ARMv7 Processor [413fc082] revision 2 (ARMv7), cr=50c5387d
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+[    0.000000] Machine: Generic AM33XX (Flattened Device Tree), model: TI AM335x BeagleBone
+[    0.000000] Memory policy: ECC disabled, Data cache writeback
+[    0.000000] On node 0 totalpages: 65280
+[    0.000000] free_area_init_node: node 0, pgdat c06cb100, node_mem_map c0726000
+[    0.000000]   Normal zone: 512 pages used for memmap
+[    0.000000]   Normal zone: 0 pages reserved
+[    0.000000]   Normal zone: 64768 pages, LIFO batch:15
+[    0.000000] AM335X ES1.0 (neon )
+[    0.000000] PERCPU: Embedded 8 pages/cpu @c0933000 s9408 r8192 d15168 u32768
+[    0.000000] pcpu-alloc: s9408 r8192 d15168 u32768 alloc=8*4096
+[    0.000000] pcpu-alloc: [0] 0 
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 64768
+[    0.000000] Kernel command line: console=ttyO0,115200n8 init=/sbin/init
+[    0.000000] PID hash table entries: 1024 (order: 0, 4096 bytes)
+[    0.000000] Dentry cache hash table entries: 32768 (order: 5, 131072 bytes)
+[    0.000000] Inode-cache hash table entries: 16384 (order: 4, 65536 bytes)
+[    0.000000] __ex_table already sorted, skipping sort
+[    0.000000] allocated 524288 bytes of page_cgroup
+[    0.000000] please try 'cgroup_disable=memory' option if you don't want memory cgroups
+[    0.000000] Memory: 255MB = 255MB total
+[    0.000000] Memory: 238884k/238884k available, 23260k reserved, 0K highmem
+[    0.000000] Virtual kernel memory layout:
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+[    0.000000]     fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+[    0.000000]     vmalloc : 0xd0800000 - 0xff000000   ( 744 MB)
+[    0.000000]     lowmem  : 0xc0000000 - 0xd0000000   ( 256 MB)
+[    0.000000]     pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)
+[    0.000000]     modules : 0xbf800000 - 0xbfe00000   (   6 MB)
+[    0.000000]       .text : 0xc0008000 - 0xc0612cf0   (6188 kB)
+[    0.000000]       .init : 0xc0613000 - 0xc06554c0   ( 266 kB)
+[    0.000000]       .data : 0xc0656000 - 0xc06cc020   ( 473 kB)
+[    0.000000]        .bss : 0xc06cc020 - 0xc0725e3c   ( 360 kB)
+[    0.000000] Hierarchical RCU implementation.
+[    0.000000] 	RCU restricting CPUs from NR_CPUS=4 to nr_cpu_ids=1.
+[    0.000000] NR_IRQS:16 nr_irqs:16 16
+[    0.000000] IRQ: Found an INTC at 0xfa200000 (revision 5.0) with 128 interrupts
+[    0.000000] Total of 128 interrupts on 1 active controller
+[    0.000000] OMAP clockevent source: GPTIMER1 at 24000000 Hz
+[    0.000000] sched_clock: 32 bits at 24MHz, resolution 41ns, wraps every 178956ms
+[    0.000000] OMAP clocksource: GPTIMER2 at 24000000 Hz
+[    0.000000] Console: colour dummy device 80x30
+[    0.000353] Calibrating delay loop... 545.07 BogoMIPS (lpj=531968)
+[    0.015437] pid_max: default: 32768 minimum: 301
+[    0.015666] Security Framework initialized
+[    0.015760] Mount-cache hash table entries: 512
+[    0.024578] Initializing cgroup subsys cpuacct
+[    0.024610] Initializing cgroup subsys memory
+[    0.024676] Initializing cgroup subsys blkio
+[    0.024807] CPU: Testing write buffer coherency: ok
+[    0.025379] CPU0: thread -1, cpu 0, socket -1, mpidr 0
+[    0.025458] Setting up static identity map for 0x8038c820 - 0x8038c86c
+[    0.026789] Brought up 1 CPUs
+[    0.026812] SMP: Total of 1 processors activated (545.07 BogoMIPS).
+[    0.028107] devtmpfs: initialized
+[    0.092505] pinctrl core: initialized pinctrl subsystem
+[    0.092716] rstctl core: initialized rstctl subsystem
+[    0.093209] regulator-dummy: no parameters
+[    0.093774] NET: Registered protocol family 16
+[    0.094479] DMA: preallocated 256 KiB pool for atomic coherent allocations
+[    0.104156] pinctrl-single 44e10800.pinmux: prop pinctrl-0 index 0 invalid phandle
+[    0.104340] pinctrl-single 44e10800.pinmux: 142 pins at pa f9e10800 size 568
+[    0.105429] platform 49000000.edma: alias fck already exists
+[    0.105463] platform 49000000.edma: alias fck already exists
+[    0.105491] platform 49000000.edma: alias fck already exists
+[    0.106644] gpiochip_add: registered GPIOs 0 to 31 on device: gpio
+[    0.106825] OMAP GPIO hardware version 0.1
+[    0.108237] gpiochip_add: registered GPIOs 32 to 63 on device: gpio
+[    0.109551] gpiochip_add: registered GPIOs 64 to 95 on device: gpio
+[    0.110860] gpiochip_add: registered GPIOs 96 to 127 on device: gpio
+[    0.111491] of_get_named_gpio_flags exited with status 52
+[    0.111520] gpio-rctrl rstctl.3: loaded OK
+[    0.116628] omap-gpmc 50000000.gpmc: GPMC revision 6.0
+[    0.119830] hw-breakpoint: debug architecture 0x4 unsupported.
+[    0.122016] cpsw.0: No hwaddr in dt. Using 3c:a3:08:27:d0:3b from efuse
+[    0.122048] cpsw.1: No hwaddr in dt. Using 3c:a3:08:27:d0:3d from efuse
+[    0.137593] bio: create slab <bio-0> at 0
+[    0.149717] edma-dma-engine edma-dma-engine.0: TI EDMA DMA engine driver
+[    0.149955] of_get_named_gpio_flags: can't parse gpios property
+[    0.150243] vmmcsd_fixed: 3300 mV 
+[    0.153363] SCSI subsystem initialized
+[    0.153816] usbcore: registered new interface driver usbfs
+[    0.153930] usbcore: registered new interface driver hub
+[    0.154262] usbcore: registered new device driver usb
+[    0.156365] omap_i2c 4819c000.i2c: bus 0 rev0.11 at 100 kHz
+[    0.156398] omap_i2c 4819c000.i2c: unable to select pin group
+[    0.156595] media: Linux media interface: v0.10
+[    0.156690] Linux video capture interface: v2.00
+[    0.156808] pps_core: LinuxPPS API ver. 1 registered
+[    0.156824] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.157542] Advanced Linux Sound Architecture Driver Initialized.
+[    0.158725] Switching to clocksource gp_timer
+[    0.176774] NET: Registered protocol family 2
+[    0.177765] TCP established hash table entries: 2048 (order: 2, 16384 bytes)
+[    0.177854] TCP bind hash table entries: 2048 (order: 3, 40960 bytes)
+[    0.177945] TCP: Hash tables configured (established 2048 bind 2048)
+[    0.178036] TCP: reno registered
+[    0.178062] UDP hash table entries: 256 (order: 1, 12288 bytes)
+[    0.178108] UDP-Lite hash table entries: 256 (order: 1, 12288 bytes)
+[    0.178599] NET: Registered protocol family 1
+[    0.179188] RPC: Registered named UNIX socket transport module.
+[    0.179209] RPC: Registered udp transport module.
+[    0.179223] RPC: Registered tcp transport module.
+[    0.179238] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    0.179628] Trying to unpack rootfs image as initramfs...
+[    1.921234] Freeing initrd memory: 12032K
+[    1.921919] CPU PMU: probing PMU on CPU 0
+[    1.921952] hw perfevents: enabled with ARMv7 Cortex-A8 PMU driver, 5 counters available
+[    1.922573] omap2_mbox_probe: platform not supported
+[    1.926355] VFS: Disk quotas dquot_6.5.2
+[    1.926685] Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+[    1.928017] NFS: Registering the id_resolver key type
+[    1.928112] Key type id_resolver registered
+[    1.928129] Key type id_legacy registered
+[    1.928196] jffs2: version 2.2. (NAND) (SUMMARY)  © 2001-2006 Red Hat, Inc.
+[    1.928710] msgmni has been set to 490
+[    1.931516] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 249)
+[    1.931541] io scheduler noop registered
+[    1.931557] io scheduler deadline registered
+[    1.931614] io scheduler cfq registered (default)
+[    1.935558] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    1.938006] omap_uart 44e09000.serial: did not get pins for uart0 error: -19
+[    1.938428] 44e09000.serial: ttyO0 at MMIO 0x44e09000 (irq = 88) is a OMAP UART0
+[    2.599216] console [ttyO0] enabled
+[    2.603745] 48022000.serial: ttyO1 at MMIO 0x48022000 (irq = 89) is a OMAP UART1
+[    2.612457] 48024000.serial: ttyO2 at MMIO 0x48024000 (irq = 90) is a OMAP UART2
+[    2.621101] 481a8000.serial: ttyO4 at MMIO 0x481a8000 (irq = 61) is a OMAP UART4
+[    2.629752] 481aa000.serial: ttyO5 at MMIO 0x481aa000 (irq = 62) is a OMAP UART5
+[    2.638726] [drm] Initialized drm 1.1.0 20060810
+[    2.657410] brd: module loaded
+[    2.667690] loop: module loaded
+[    2.671878] bone-capemgr bone_capemgr.8: Failed to find baseboard eeprom node
+[    2.681812] nand_get_flash_type: 2c,f1 against 2c,f1
+[    2.687339] ONFI param page 0 valid
+[    2.691013] ONFI flash detected
+[    2.694333] NAND device: Manufacturer ID: 0x2c, Chip ID: 0xf1 (Micron MT29F1G08ABAEAWP), 128MiB, page size: 2048, OOB size: 64
+[    2.706245] omap2-nand: detected x8 NAND flash
+[    2.710909] nand: using OMAP_ECC_BCH8_CODE_HW ECC scheme
+[    2.716492] omap2-nand: using custom ecc layout
+[    2.721362] 10 ofpart partitions found on MTD device omap2-nand.0
+[    2.727753] Creating 10 MTD partitions on "omap2-nand.0":
+[    2.733429] 0x000000000000-0x000000020000 : "spl"
+[    2.740230] 0x000000020000-0x000000040000 : "spl_backup1"
+[    2.747692] 0x000000040000-0x000000060000 : "spl_backup2"
+[    2.755102] 0x000000060000-0x000000080000 : "spl_backup3"
+[    2.762503] 0x000000080000-0x000000240000 : "u-boot"
+[    2.770753] 0x000000240000-0x000000260000 : "bootenv"
+[    2.777654] 0x000000260000-0x000000280000 : "fdt"
+[    2.784290] 0x000000280000-0x000000780000 : "kernel"
+[    2.795267] 0x000000800000-0x000001c00000 : "root"
+[    2.818720] 0x000001c00000-0x000003000000 : "config"
+[    2.842501] OneNAND driver initializing
+[    2.848179] usbcore: registered new interface driver asix
+[    2.854005] usbcore: registered new interface driver cdc_ether
+[    2.860251] usbcore: registered new interface driver smsc95xx
+[    2.866371] usbcore: registered new interface driver net1080
+[    2.872395] usbcore: registered new interface driver cdc_subset
+[    2.878688] usbcore: registered new interface driver zaurus
+[    2.884695] usbcore: registered new interface driver cdc_ncm
+[    2.891483] usbcore: registered new interface driver cdc_acm
+[    2.897433] cdc_acm: USB Abstract Control Model driver for USB modems and ISDN adapters
+[    2.905813] Initializing USB Mass Storage driver...
+[    2.911054] usbcore: registered new interface driver usb-storage
+[    2.917354] USB Mass Storage support registered.
+[    2.922395] musb-hdrc: version 6.0, ?dma?, otg (peripheral+host)
+[    2.929108] musb-hdrc musb-hdrc.0.auto: pdev->id = 0
+[    2.934353] musb-hdrc musb-hdrc.0.auto: drivers/usb/musb/musb_dsps.c:468 dsps_musb_init: OK
+[    2.943122] musb-hdrc: ConfigData=0xde (UTMI-8, dyn FIFOs, bulk combine, bulk split, HB-ISO Rx, HB-ISO Tx, SoftConn)
+[    2.943143] musb-hdrc: MHDRC RTL version 2.0 
+[    2.943158] musb-hdrc: setup fifo_mode 4
+[    2.943186] musb-hdrc: 28/31 max ep, 16384/16384 memory
+[    2.943332] musb-hdrc musb-hdrc.0.auto: *** mode=3
+[    2.948377] musb-hdrc musb-hdrc.0.auto: *** power=250
+[    2.954427] musb-hdrc musb-hdrc.1.auto: pdev->id = 1
+[    2.959676] musb-hdrc musb-hdrc.1.auto: drivers/usb/musb/musb_dsps.c:468 dsps_musb_init: OK
+[    2.968444] musb-hdrc: ConfigData=0xde (UTMI-8, dyn FIFOs, bulk combine, bulk split, HB-ISO Rx, HB-ISO Tx, SoftConn)
+[    2.968465] musb-hdrc: MHDRC RTL version 2.0 
+[    2.968479] musb-hdrc: setup fifo_mode 4
+[    2.968501] musb-hdrc: 28/31 max ep, 16384/16384 memory
+[    2.968641] musb-hdrc musb-hdrc.1.auto: *** mode=1
+[    2.973685] musb-hdrc musb-hdrc.1.auto: *** power=250
+[    2.978992] musb-hdrc musb-hdrc.1.auto: MUSB HDRC host driver
+[    2.985361] musb-hdrc musb-hdrc.1.auto: new USB bus registered, assigned bus number 1
+[    2.993606] musb-hdrc musb-hdrc.1.auto: supports USB remote wakeup
+[    2.993713] usb usb1: default language 0x0409
+[    2.993770] usb usb1: udev 1, busnum 1, minor = 0
+[    2.993793] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+[    3.000944] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    3.008516] usb usb1: Product: MUSB HDRC host driver
+[    3.013729] usb usb1: Manufacturer: Linux 3.8.13 musb-hcd
+[    3.019394] usb usb1: SerialNumber: musb-hdrc.1.auto
+[    3.025596] usb usb1: usb_probe_device
+[    3.025626] usb usb1: configuration #1 chosen from 1 choice
+[    3.025694] usb usb1: adding 1-0:1.0 (config #1, interface 0)
+[    3.025895] hub 1-0:1.0: usb_probe_interface
+[    3.025917] hub 1-0:1.0: usb_probe_interface - got id
+[    3.025944] hub 1-0:1.0: USB hub found
+[    3.029972] hub 1-0:1.0: 1 port detected
+[    3.034108] hub 1-0:1.0: standalone hub
+[    3.034129] hub 1-0:1.0: individual port power switching
+[    3.034147] hub 1-0:1.0: no over-current protection
+[    3.034164] hub 1-0:1.0: Single TT
+[    3.034186] hub 1-0:1.0: TT requires at most 8 FS bit times (666 ns)
+[    3.034206] hub 1-0:1.0: power on to power good time: 10ms
+[    3.034262] hub 1-0:1.0: local power source is good
+[    3.034376] hub 1-0:1.0: enabling power on all ports
+[    3.035435] mousedev: PS/2 mouse device common for all mice
+[    3.043306] omap_rtc 44e3e000.rtc: rtc core: registered 44e3e000.rtc as rtc0
+[    3.051113] i2c /dev entries driver
+[    3.056163] pps_ldisc: PPS line discipline registered
+[    3.061640] Driver for 1-wire Dallas network protocol.
+[    3.068877] omap_wdt: OMAP Watchdog Timer Rev 0x01: initial timeout 60 sec
+[    3.076456] cpuidle: using governor ladder
+[    3.080786] cpuidle: using governor menu
+[    3.085347] of_get_named_gpio_flags exited with status 6
+[    3.085368] of_get_named_gpio_flags: can't parse gpios property
+[    3.085384] of_get_named_gpio_flags: can't parse gpios property
+[    3.085420] omap_hsmmc mmc.4: of_parse_phandle_with_args of 'reset' failed
+[    3.092656] omap_hsmmc mmc.4: Failed to get rstctl; not using any
+[    3.099464] edma-dma-engine edma-dma-engine.0: allocated channel for 0:25
+[    3.106689] edma-dma-engine edma-dma-engine.0: allocated channel for 0:24
+[    3.114038] mmc.4 supply vmmc_aux not found, using dummy regulator
+[    3.120988] omap_hsmmc mmc.4: pins are not configured from the driver
+[    3.135495] hub 1-0:1.0: state 7 ports 1 chg 0000 evt 0000
+[    3.155516] of_get_named_gpio_flags exited with status -517
+[    3.155583] platform gpio-leds.7: Driver leds-gpio requests probe deferral
+[    3.163357] ledtrig-cpu: registered to indicate activity on CPUs
+[    3.170132] edma-dma-engine edma-dma-engine.0: allocated channel for 0:36
+[    3.177326] omap-sham 53100000.sham: hw accel on OMAP rev 4.3
+[    3.185410] omap-aes 53500000.aes: OMAP AES hw accel rev: 3.2
+[    3.191759] edma-dma-engine edma-dma-engine.0: allocated channel for 0:5
+[    3.198941] edma-dma-engine edma-dma-engine.0: allocated channel for 0:6
+[    3.211188] usbcore: registered new interface driver usbhid
+[    3.217105] usbhid: USB HID core driver
+[    3.224008] TCP: cubic registered
+[    3.227533] Initializing XFRM netlink socket
+[    3.232101] NET: Registered protocol family 17
+[    3.236911] NET: Registered protocol family 15
+[    3.241800] Key type dns_resolver registered
+[    3.246442] VFP support v0.3: implementor 41 architecture 3 part 30 variant c rev 3
+[    3.254556] ThumbEE CPU extension supported.
+[    3.259069] Registering SWP/SWPB emulation handler
+[    3.265087] registered taskstats version 1
+[    3.271708] of_get_named_gpio_flags exited with status -517
+[    3.271783] platform gpio-leds.7: Driver leds-gpio requests probe deferral
+[    3.328807] davinci_mdio 4a101000.mdio: davinci mdio revision 1.6
+[    3.335222] davinci_mdio 4a101000.mdio: detected phy mask fffffffe
+[    3.349796] libphy: 4a101000.mdio: probed
+[    3.354143] davinci_mdio 4a101000.mdio: phy[0]: device 4a101000.mdio:00, driver SMSC LAN8710/LAN8720
+[    3.364372] Detected MACID = 3c:a3:08:27:d0:3b
+[    3.369054] cpsw 4a100000.ethernet: NAPI disabled
+[    3.374445] of_get_named_gpio_flags exited with status -517
+[    3.374511] platform gpio-leds.7: Driver leds-gpio requests probe deferral
+[    3.383233] omap_rtc 44e3e000.rtc: setting system clock to 2000-01-01 00:00:00 UTC (946684800)
+[    3.392512] cpu0 supply cpu0 not found, using dummy regulator
+[    3.398991] cpufreq_cpu0: failed to scale voltage up: -22
+[    3.404808] cpufreq_cpu0: failed to scale voltage up: -22
+[    3.417569] ALSA device list:
+[    3.420802]   No soundcards found.
+[    3.425348] Freeing init memory: 264K
+[    3.429397] Failed to execute /init
+[    4.459758] jffs2: notice: (122) jffs2_build_xattr_subsystem: complete building xattr subsystem, 0 of xdatum (0 unchecked, 0 orphan) and 0 of xref (0 dead, 0 orphan) found.
+[    5.755328] net eth0: initializing cpsw version 1.12 (0)
+[    5.764262] net eth0: phy found : id is : 0x7c0f1
+[    5.769690] libphy: PHY 4a101000.mdio:01 not found
+[    5.774887] net eth0: phy 4a101000.mdio:01 not found on slave 1
+[    8.841042] libphy: 4a101000.mdio:00 - Link is Up - 100/Full
+Oct  9 13:17:07 (none) local0.err cgminer: Miner compile time: Fri Dec 29 17:12:57 CST 2017 type: Antminer A3
+Oct  9 13:17:07 (none) local0.warn cgminer: Started cgminer 4.9.0
+Oct  9 13:17:07 (none) local0.warn cgminer[375]: bitmain_sia_init
+Oct  9 13:17:07 (none) local0.err cgminer[375]: FAN1 too slow ...
+Oct  9 13:17:07 (none) local0.err cgminer[375]: FAN2 too slow ...
+Oct  9 13:17:08 (none) local0.err cgminer[375]: FAN1 too slow ...
+Oct  9 13:17:08 (none) local0.err cgminer[375]: FAN2 too slow ...
+Oct  9 13:17:08 (none) local0.err cgminer[375]: FAN1 too slow ...
+Oct  9 13:17:08 (none) local0.err cgminer[375]: FAN2 too slow ...
+Oct  9 13:17:09 (none) local0.err cgminer[375]: FAN1 too slow ...
+Oct  9 13:17:09 (none) local0.err cgminer[375]: FAN2 too slow ...
+Oct  9 13:17:09 (none) local0.err cgminer[375]: FAN1 too slow ...
+Oct  9 13:17:09 (none) local0.err cgminer[375]: FAN2 too slow ...
+Oct  9 13:17:10 (none) local0.err cgminer[375]: FAN1 too slow ...
+Oct  9 13:17:10 (none) local0.err cgminer[375]: FAN1 too slow ...
+Oct  9 13:17:11 (none) local0.err cgminer[375]: FAN1 too slow ...
+Oct  9 13:17:11 (none) local0.warn cgminer[375]: check_fan_speed OK
+Oct  9 13:17:11 (none) local0.notice cgminer[375]: detected at /sys/class/gpio/gpio51/value  chain 0
+Oct  9 13:17:11 (none) local0.notice cgminer[375]: detected at /sys/class/gpio/gpio48/value  chain 1
+Oct  9 13:17:11 (none) local0.notice cgminer[375]: detected at /sys/class/gpio/gpio47/value  chain 2
+Oct  9 13:17:11 (none) local0.notice cgminer[375]: detect total chain num 3
+Oct  9 13:17:11 (none) local0.notice cgminer[375]: i2c init ok
+Oct  9 13:17:11 (none) local0.notice cgminer[375]: check_whether_need_update_pic_program
+Oct  9 13:17:12 (none) local0.notice cgminer[375]: reset_PIC16F1704_pic_new ok
+Oct  9 13:17:13 (none) local0.notice cgminer[375]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:17:13 (none) local0.notice cgminer[375]: get_PIC16F1704_software_version_new ok, version = 0x81
+Oct  9 13:17:14 (none) local0.notice cgminer[375]: reset_PIC16F1704_pic_new ok
+Oct  9 13:17:15 (none) local0.notice cgminer[375]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:17:15 (none) local0.notice cgminer[375]: get_PIC16F1704_software_version_new ok, version = 0x81
+Oct  9 13:17:16 (none) local0.notice cgminer[375]: reset_PIC16F1704_pic_new ok
+Oct  9 13:17:17 (none) local0.notice cgminer[375]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:17:18 (none) local0.notice cgminer[375]: get_PIC16F1704_software_version_new ok, version = 0x81
+Oct  9 13:17:18 (none) local0.notice cgminer[375]: every_chain_reset_PIC16F1704_pic_new
+Oct  9 13:17:19 (none) local0.notice cgminer[375]: reset_PIC16F1704_pic_new ok
+Oct  9 13:17:20 (none) local0.notice cgminer[375]: reset_PIC16F1704_pic_new ok
+Oct  9 13:17:21 (none) local0.notice cgminer[375]: reset_PIC16F1704_pic_new ok
+Oct  9 13:17:22 (none) local0.notice cgminer[375]: every_chain_jump_from_loader_to_app_PIC16F1704_new
+Oct  9 13:17:22 (none) local0.notice cgminer[375]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:17:23 (none) local0.notice cgminer[375]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:17:23 (none) local0.notice cgminer[375]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:17:24 (none) local0.notice cgminer[375]: reset_hash_board_low 0
+Oct  9 13:17:24 (none) local0.notice cgminer[375]: pic_heart_beat_func_new
+Oct  9 13:17:24 (none) local0.notice cgminer[375]: reset_hash_board_low 1
+Oct  9 13:17:24 (none) local0.notice cgminer[375]: reset_hash_board_low 2
+Oct  9 13:17:24 (none) local0.notice cgminer[375]: reset_hash_board_low 3
+Oct  9 13:17:24 (none) local0.notice cgminer[375]: every_chain_enable_PIC16F1704_dc_dc_new
+Oct  9 13:17:24 (none) local0.notice cgminer[375]: enable_PIC16F1704_dc_dc_new ok
+Oct  9 13:17:24 (none) local0.notice cgminer[375]: enable_PIC16F1704_dc_dc_new ok
+Oct  9 13:17:24 (none) local0.notice cgminer[375]: enable_PIC16F1704_dc_dc_new ok
+Oct  9 13:17:25 (none) local0.notice cgminer[375]: reset_hash_board_high 0
+Oct  9 13:17:25 (none) local0.notice cgminer[375]: reset_hash_board_high 1
+Oct  9 13:17:25 (none) local0.notice cgminer[375]: reset_hash_board_high 2
+Oct  9 13:17:25 (none) local0.notice cgminer[375]: reset_hash_board_high 3
+Oct  9 13:17:25 (none) local0.notice cgminer[375]: tty_init
+Oct  9 13:17:25 (none) local0.notice cgminer[375]: tty_init_chain
+Oct  9 13:17:25 (none) local0.notice cgminer[375]: tty_init_chain chainid = 0
+Oct  9 13:17:25 (none) local0.err cgminer[375]: create rx read thread for chain 0 ok
+Oct  9 13:17:25 (none) local0.notice cgminer[375]: Start A New Asic Response.Chain Id:[0]
+Oct  9 13:17:26 (none) local0.err cgminer[375]: create tx read thread for chain 0 ok
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: open device over
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: tty_init_chain
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: tty_init_chain chainid = 1
+Oct  9 13:17:26 (none) local0.err cgminer[375]: create rx read thread for chain 1 ok
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: Start A New Asic Response.Chain Id:[1]
+Oct  9 13:17:26 (none) local0.err cgminer[375]: create tx read thread for chain 1 ok
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: open device over
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: tty_init_chain
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: tty_init_chain chainid = 2
+Oct  9 13:17:26 (none) local0.err cgminer[375]: create rx read thread for chain 2 ok
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: Start A New Asic Response.Chain Id:[2]
+Oct  9 13:17:26 (none) local0.err cgminer[375]: create tx read thread for chain 2 ok
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: open device over
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: tty_init_chain
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: open device over
+Oct  9 13:17:26 (none) local0.notice cgminer[375]: check_every_chain_asic_number
+Oct  9 13:17:27 (none) local0.warn cgminer[375]: check_asic_reg: Chain0 has 60 ASICs
+Oct  9 13:17:27 (none) local0.warn cgminer[375]: check_asic_reg: Chain1 has 60 ASICs
+Oct  9 13:17:27 (none) local0.warn cgminer[375]: check_asic_reg: Chain2 has 60 ASICs
+Oct  9 13:17:28 (none) local0.notice cgminer[375]: calculate_address_interval: temp_asic_number = 64, addrInterval = 4
+Oct  9 13:17:28 (none) local0.notice cgminer[375]: set_ticket_mask ticket_mask = 0x00000020
+Oct  9 13:17:28 (none) local0.notice cgminer[375]: set_frequency: frequency = 650
+Oct  9 13:17:28 (none) local0.notice cgminer[375]: software_set_address_chain: chain 0 has 60 ASIC, and addrInterval is 4
+Oct  9 13:17:28 (none) local0.notice cgminer[375]: Now Set [0] Chain Address
+Oct  9 13:17:29 (none) local0.notice cgminer[375]: software_set_address_chain: chain 1 has 60 ASIC, and addrInterval is 4
+Oct  9 13:17:29 (none) local0.notice cgminer[375]: Now Set [1] Chain Address
+Oct  9 13:17:30 (none) local0.notice cgminer[375]: software_set_address_chain: chain 2 has 60 ASIC, and addrInterval is 4
+Oct  9 13:17:30 (none) local0.notice cgminer[375]: Now Set [2] Chain Address
+Oct  9 13:17:30 (none) local0.notice cgminer[375]: software_set_address_chain: chain 3 has 0 ASIC, and addrInterval is 4
+Oct  9 13:17:30 (none) local0.notice cgminer[375]: check_every_chain_asic_number
+Oct  9 13:17:30 (none) local0.warn cgminer[375]: check_asic_reg: Chain0 has 60 ASICs
+Oct  9 13:17:31 (none) local0.warn cgminer[375]: check_asic_reg: Chain1 has 60 ASICs
+Oct  9 13:17:31 (none) local0.warn cgminer[375]: check_asic_reg: Chain2 has 60 ASICs
+Oct  9 13:17:31 (none) local0.notice cgminer[375]: enable_read_temperature_from_asic_chain: reg_value = 0x07007a61
+Oct  9 13:17:31 (none) local0.notice cgminer[375]: enable_read_temperature_from_asic_chain: reg_value = 0x07007a61
+Oct  9 13:17:31 (none) local0.notice cgminer[375]: enable_read_temperature_from_asic_chain: reg_value = 0x07007a61
+Oct  9 13:17:31 (none) local0.notice cgminer[375]: enable_read_temperature_from_asic_chain: reg_value = 0x07007a61
+Oct  9 13:17:31 (none) local0.notice cgminer[375]: select_core_to_check_temperature: diode_mux_sel = 4, vdd_mux_sel = 0
+Oct  9 13:17:31 (none) local0.notice cgminer[375]: select_core_to_check_temperature_chain: diode_mux_sel = 4, vdd_mux_sel = 0
+Oct  9 13:17:31 (none) local0.notice cgminer[375]: select_core_to_check_temperature_chain: diode_mux_sel = 4, vdd_mux_sel = 0
+Oct  9 13:17:31 (none) local0.notice cgminer[375]: select_core_to_check_temperature_chain: diode_mux_sel = 4, vdd_mux_sel = 0
+Oct  9 13:17:31 (none) local0.notice cgminer[375]: select_core_to_check_temperature_chain: diode_mux_sel = 4, vdd_mux_sel = 0
+Oct  9 13:17:31 (none) local0.notice cgminer[375]: 0 calibration_sensor_offset_chain
+Oct  9 13:17:32 (none) local0.notice cgminer[375]: chain:0 local:31 remote:39
+Oct  9 13:17:32 (none) local0.warn cgminer[375]: Chain 0 set_temperature_offset_value_chain_sensor
+Oct  9 13:17:32 (none) local0.notice cgminer[375]: set_temperature_offset_value_chain_sensor: Chain0 Sensor0 temp offset : -8, 
+Oct  9 13:17:32 (none) local0.notice cgminer[375]: chain:0 local:31 remote:31
+Oct  9 13:17:32 (none) local0.warn cgminer[375]: Chain 0 set_temperature_offset_value_chain_sensor
+Oct  9 13:17:33 (none) local0.notice cgminer[375]: set_temperature_offset_value_chain_sensor: Chain0 Sensor0 temp offset : -8, 
+Oct  9 13:17:33 (none) local0.notice cgminer[375]: 1 calibration_sensor_offset_chain
+Oct  9 13:17:33 (none) local0.notice cgminer[375]: chain:1 local:31 remote:39
+Oct  9 13:17:33 (none) local0.warn cgminer[375]: Chain 1 set_temperature_offset_value_chain_sensor
+Oct  9 13:17:33 (none) local0.notice cgminer[375]: set_temperature_offset_value_chain_sensor: Chain1 Sensor0 temp offset : -8, 
+Oct  9 13:17:33 (none) local0.notice cgminer[375]: chain:1 local:31 remote:31
+Oct  9 13:17:33 (none) local0.warn cgminer[375]: Chain 1 set_temperature_offset_value_chain_sensor
+Oct  9 13:17:34 (none) local0.notice cgminer[375]: set_temperature_offset_value_chain_sensor: Chain1 Sensor0 temp offset : -8, 
+Oct  9 13:17:34 (none) local0.notice cgminer[375]: 2 calibration_sensor_offset_chain
+Oct  9 13:17:34 (none) local0.notice cgminer[375]: chain:2 local:31 remote:39
+Oct  9 13:17:34 (none) local0.warn cgminer[375]: Chain 2 set_temperature_offset_value_chain_sensor
+Oct  9 13:17:34 (none) local0.notice cgminer[375]: set_temperature_offset_value_chain_sensor: Chain2 Sensor0 temp offset : -8, 
+Oct  9 13:17:35 (none) local0.notice cgminer[375]: chain:2 local:31 remote:31
+Oct  9 13:17:35 (none) local0.warn cgminer[375]: Chain 2 set_temperature_offset_value_chain_sensor
+Oct  9 13:17:35 (none) local0.notice cgminer[375]: set_temperature_offset_value_chain_sensor: Chain2 Sensor0 temp offset : -8, 
+Oct  9 13:17:35 (none) local0.warn cgminer[375]: Chain 0 set_temperature_offset_value_chain
+Oct  9 13:17:35 (none) local0.warn cgminer[375]: Chain 0 set_temperature_offset_value_chain_sensor
+Oct  9 13:17:35 (none) local0.notice cgminer[375]: set_temperature_offset_value_chain_sensor: Chain0 Sensor0 temp offset : -8, 
+Oct  9 13:17:35 (none) local0.warn cgminer[375]: Chain 1 set_temperature_offset_value_chain
+Oct  9 13:17:35 (none) local0.warn cgminer[375]: Chain 1 set_temperature_offset_value_chain_sensor
+Oct  9 13:17:36 (none) local0.notice cgminer[375]: set_temperature_offset_value_chain_sensor: Chain1 Sensor0 temp offset : -8, 
+Oct  9 13:17:36 (none) local0.warn cgminer[375]: Chain 2 set_temperature_offset_value_chain
+Oct  9 13:17:36 (none) local0.warn cgminer[375]: Chain 2 set_temperature_offset_value_chain_sensor
+Oct  9 13:17:36 (none) local0.notice cgminer[375]: set_temperature_offset_value_chain_sensor: Chain2 Sensor0 temp offset : -8, 
+Oct  9 13:17:36 (none) local0.notice cgminer[375]: frequency = '650'
+Oct  9 13:17:36 (none) local0.notice cgminer[375]: dev.timeout = 7858 us
+Oct  9 13:17:41 (none) local0.err cgminer[375]: cgminer time error total_secs = 1791551861.303774 last_total_secs = 1.000000
+Oct  9 13:17:41 (none) local0.warn cgminer[375]: Stratum reconnect requested from pool 2 to eu-de02.miningrigrentals.com:50345
+Oct  9 13:17:41 (none) local0.warn cgminer[375]: Pool 1 stratum+tcp://eu-de01.miningrigrentals.com:3333 alive, testing stability
+Oct  9 13:17:41 (none) local0.warn cgminer[375]: Switching to pool 1 stratum+tcp://eu-de01.miningrigrentals.com:3333
+Oct  9 13:17:41 (none) local0.warn cgminer[375]: Stratum reconnect requested from pool 1 to eu-de01.miningrigrentals.com:50741
+Oct  9 13:17:41 (none) local0.warn cgminer[375]: Pool 0 stratum+tcp://eu-01.miningrigrentals.com:3333 alive, testing stability
+Oct  9 13:17:41 (none) local0.warn cgminer[375]: Switching to pool 0 stratum+tcp://eu-01.miningrigrentals.com:3333
+Oct  9 13:17:41 (none) local0.warn cgminer[375]: Stratum reconnect requested from pool 0 to eu-01.miningrigrentals.com:51632
+Oct  9 13:17:47 (none) local0.warn cgminer[375]: API running in IP access mode on port 4028 (16)
+Oct  9 13:24:07 (none) local0.err cgminer[375]: read_temp_func: Chain0 sensor0 local temp is 86 `C, higher than MAX_TEMP
+Oct  9 13:24:08 (none) local0.err cgminer[375]: Temperature is higher than 85'C for 1 time
+Oct  9 13:24:09 (none) local0.err cgminer[375]: Temperature is higher than 85'C for 2 time
+Oct  9 13:24:10 (none) local0.err cgminer[375]: check_miner_status: the temperature is too high, close PIC and need reboot!!!
+Oct  9 13:38:12 (none) local0.err cgminer: Miner compile time: Fri Dec 29 17:12:57 CST 2017 type: Antminer A3
+Oct  9 13:38:12 (none) local0.warn cgminer: Started cgminer 4.9.0
+Oct  9 13:38:12 (none) local0.warn cgminer[18746]: bitmain_sia_init
+Oct  9 13:38:13 (none) local0.err cgminer[18746]: FAN1 too slow ...
+Oct  9 13:38:13 (none) local0.err cgminer[18746]: FAN2 too slow ...
+Oct  9 13:38:13 (none) local0.err cgminer: Miner compile time: Fri Dec 29 17:12:57 CST 2017 type: Antminer A3
+Oct  9 13:38:13 (none) local0.warn cgminer: Started cgminer 4.9.0
+Oct  9 13:38:13 (none) local0.warn cgminer[18769]: bitmain_sia_init
+Oct  9 13:38:14 (none) local0.err cgminer[18769]: FAN1 too slow ...
+Oct  9 13:38:14 (none) local0.err cgminer[18769]: FAN2 too slow ...
+Oct  9 13:38:14 (none) local0.err cgminer[18769]: FAN1 too slow ...
+Oct  9 13:38:14 (none) local0.err cgminer[18769]: FAN2 too slow ...
+Oct  9 13:38:15 (none) local0.warn cgminer[18769]: check_fan_speed OK
+Oct  9 13:38:15 (none) local0.notice cgminer[18769]: detected at /sys/class/gpio/gpio51/value  chain 0
+Oct  9 13:38:15 (none) local0.notice cgminer[18769]: detected at /sys/class/gpio/gpio48/value  chain 1
+Oct  9 13:38:15 (none) local0.notice cgminer[18769]: detected at /sys/class/gpio/gpio47/value  chain 2
+Oct  9 13:38:15 (none) local0.notice cgminer[18769]: detect total chain num 3
+Oct  9 13:38:15 (none) local0.notice cgminer[18769]: i2c init ok
+Oct  9 13:38:15 (none) local0.notice cgminer[18769]: check_whether_need_update_pic_program
+Oct  9 13:38:16 (none) local0.notice cgminer[18769]: reset_PIC16F1704_pic_new ok
+Oct  9 13:38:17 (none) local0.notice cgminer[18769]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:38:17 (none) local0.notice cgminer[18769]: get_PIC16F1704_software_version_new ok, version = 0x81
+Oct  9 13:38:18 (none) local0.notice cgminer[18769]: reset_PIC16F1704_pic_new ok
+Oct  9 13:38:19 (none) local0.notice cgminer[18769]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:38:19 (none) local0.notice cgminer[18769]: get_PIC16F1704_software_version_new ok, version = 0x81
+Oct  9 13:38:20 (none) local0.notice cgminer[18769]: reset_PIC16F1704_pic_new ok
+Oct  9 13:38:21 (none) local0.notice cgminer[18769]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:38:21 (none) local0.notice cgminer[18769]: get_PIC16F1704_software_version_new ok, version = 0x81
+Oct  9 13:38:21 (none) local0.notice cgminer[18769]: every_chain_reset_PIC16F1704_pic_new
+Oct  9 13:38:22 (none) local0.notice cgminer[18769]: reset_PIC16F1704_pic_new ok
+Oct  9 13:38:24 (none) local0.notice cgminer[18769]: reset_PIC16F1704_pic_new ok
+Oct  9 13:38:25 (none) local0.notice cgminer[18769]: reset_PIC16F1704_pic_new ok
+Oct  9 13:38:25 (none) local0.notice cgminer[18769]: every_chain_jump_from_loader_to_app_PIC16F1704_new
+Oct  9 13:38:26 (none) local0.notice cgminer[18769]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:38:26 (none) local0.notice cgminer[18769]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:38:27 (none) local0.notice cgminer[18769]: jump_from_loader_to_app_PIC16F1704_new ok
+Oct  9 13:38:27 (none) local0.notice cgminer[18769]: reset_hash_board_low 0
+Oct  9 13:38:27 (none) local0.notice cgminer[18769]: pic_heart_beat_func_new
+Oct  9 13:38:27 (none) local0.notice cgminer[18769]: reset_hash_board_low 1
+Oct  9 13:38:27 (none) local0.notice cgminer[18769]: reset_hash_board_low 2
+Oct  9 13:38:27 (none) local0.notice cgminer[18769]: reset_hash_board_low 3
+Oct  9 13:38:28 (none) local0.notice cgminer[18769]: every_chain_enable_PIC16F1704_dc_dc_new
+Oct  9 13:38:28 (none) local0.notice cgminer[18769]: enable_PIC16F1704_dc_dc_new ok
+Oct  9 13:38:28 (none) local0.notice cgminer[18769]: enable_PIC16F1704_dc_dc_new ok
+Oct  9 13:38:28 (none) local0.notice cgminer[18769]: enable_PIC16F1704_dc_dc_new ok
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: reset_hash_board_high 0
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: reset_hash_board_high 1
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: reset_hash_board_high 2
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: reset_hash_board_high 3
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: tty_init
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: tty_init_chain
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: tty_init_chain chainid = 0
+Oct  9 13:38:29 (none) local0.err cgminer[18769]: create rx read thread for chain 0 ok
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: Start A New Asic Response.Chain Id:[0]
+Oct  9 13:38:29 (none) local0.err cgminer[18769]: create tx read thread for chain 0 ok
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: open device over
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: tty_init_chain
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: tty_init_chain chainid = 1
+Oct  9 13:38:29 (none) local0.err cgminer[18769]: create rx read thread for chain 1 ok
+Oct  9 13:38:29 (none) local0.notice cgminer[18769]: Start A New Asic Response.Chain Id:[1]
+Oct  9 13:38:30 (none) local0.err cgminer[18769]: create tx read thread for chain 1 ok
+Oct  9 13:38:30 (none) local0.notice cgminer[18769]: open device over
+Oct  9 13:38:30 (none) local0.notice cgminer[18769]: tty_init_chain
+Oct  9 13:38:30 (none) local0.notice cgminer[18769]: tty_init_chain chainid = 2
+Oct  9 13:38:30 (none) local0.err cgminer[18769]: create rx read thread for chain 2 ok
+Oct  9 13:38:30 (none) local0.notice cgminer[18769]: Start A New Asic Response.Chain Id:[2]
+Oct  9 13:38:30 (none) local0.err cgminer[18769]: create tx read thread for chain 2 ok
+Oct  9 13:38:30 (none) local0.notice cgminer[18769]: open device over
+Oct  9 13:38:30 (none) local0.notice cgminer[18769]: tty_init_chain
+Oct  9 13:38:30 (none) local0.notice cgminer[18769]: open device over
+Oct  9 13:38:30 (none) local0.notice cgminer[18769]: check_every_chain_asic_number
+Oct  9 13:38:30 (none) local0.warn cgminer[18769]: check_asic_reg: Chain0 has 60 ASICs
+Oct  9 13:38:31 (none) local0.warn cgminer[18769]: check_asic_reg: Chain1 has 60 ASICs
+Oct  9 13:38:31 (none) local0.warn cgminer[18769]: check_asic_reg: Chain2 has 60 ASICs
+Oct  9 13:38:32 (none) local0.notice cgminer[18769]: calculate_address_interval: temp_asic_number = 64, addrInterval = 4
+Oct  9 13:38:32 (none) local0.notice cgminer[18769]: set_ticket_mask ticket_mask = 0x00000020
+Oct  9 13:38:32 (none) local0.notice cgminer[18769]: set_frequency: frequency = 644
+Oct  9 13:38:32 (none) local0.notice cgminer[18769]: software_set_address_chain: chain 0 has 60 ASIC, and addrInterval is 4
+Oct  9 13:38:32 (none) local0.notice cgminer[18769]: Now Set [0] Chain Address
+Oct  9 13:38:32 (none) local0.notice cgminer[18769]: software_set_address_chain: chain 1 has 60 ASIC, and addrInterval is 4
+Oct  9 13:38:32 (none) local0.notice cgminer[18769]: Now Set [1] Chain Address
+Oct  9 13:38:33 (none) local0.notice cgminer[18769]: software_set_address_chain: chain 2 has 60 ASIC, and addrInterval is 4
+Oct  9 13:38:33 (none) local0.notice cgminer[18769]: Now Set [2] Chain Address
+Oct  9 13:38:34 (none) local0.notice cgminer[18769]: software_set_address_chain: chain 3 has 0 ASIC, and addrInterval is 4
+Oct  9 13:38:34 (none) local0.notice cgminer[18769]: check_every_chain_asic_number
+Oct  9 13:38:34 (none) local0.warn cgminer[18769]: check_asic_reg: Chain0 has 60 ASICs
+Oct  9 13:38:35 (none) local0.warn cgminer[18769]: check_asic_reg: Chain1 has 60 ASICs
+Oct  9 13:38:35 (none) local0.warn cgminer[18769]: check_asic_reg: Chain2 has 60 ASICs
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: enable_read_temperature_from_asic_chain: reg_value = 0x07007a61
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: enable_read_temperature_from_asic_chain: reg_value = 0x07007a61
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: enable_read_temperature_from_asic_chain: reg_value = 0x07007a61
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: enable_read_temperature_from_asic_chain: reg_value = 0x07007a61
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: select_core_to_check_temperature: diode_mux_sel = 4, vdd_mux_sel = 0
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: select_core_to_check_temperature_chain: diode_mux_sel = 4, vdd_mux_sel = 0
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: select_core_to_check_temperature_chain: diode_mux_sel = 4, vdd_mux_sel = 0
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: select_core_to_check_temperature_chain: diode_mux_sel = 4, vdd_mux_sel = 0
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: select_core_to_check_temperature_chain: diode_mux_sel = 4, vdd_mux_sel = 0
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: 0 calibration_sensor_offset_chain
+Oct  9 13:38:35 (none) local0.notice cgminer[18769]: chain:0 local:35 remote:35
+Oct  9 13:38:35 (none) local0.warn cgminer[18769]: Chain 0 set_temperature_offset_value_chain_sensor
+Oct  9 13:38:36 (none) local0.notice cgminer[18769]: set_temperature_offset_value_chain_sensor: Chain0 Sensor0 temp offset : 00, 
+Oct  9 13:38:36 (none) local0.notice cgminer[18769]: 1 calibration_sensor_offset_chain
+Oct  9 13:38:36 (none) local0.notice cgminer[18769]: chain:1 local:35 remote:35
+Oct  9 13:38:36 (none) local0.warn cgminer[18769]: Chain 1 set_temperature_offset_value_chain_sensor
+Oct  9 13:38:36 (none) local0.notice cgminer[18769]: set_temperature_offset_value_chain_sensor: Chain1 Sensor0 temp offset : 00, 
+Oct  9 13:38:36 (none) local0.notice cgminer[18769]: 2 calibration_sensor_offset_chain
+Oct  9 13:38:37 (none) local0.notice cgminer[18769]: chain:2 local:35 remote:36
+Oct  9 13:38:37 (none) local0.warn cgminer[18769]: Chain 2 set_temperature_offset_value_chain_sensor
+Oct  9 13:38:37 (none) local0.notice cgminer[18769]: set_temperature_offset_value_chain_sensor: Chain2 Sensor0 temp offset : -1, 
+Oct  9 13:38:37 (none) local0.warn cgminer[18769]: Chain 0 set_temperature_offset_value_chain
+Oct  9 13:38:37 (none) local0.warn cgminer[18769]: Chain 0 set_temperature_offset_value_chain_sensor
+Oct  9 13:38:37 (none) local0.notice cgminer[18769]: set_temperature_offset_value_chain_sensor: Chain0 Sensor0 temp offset : 00, 
+Oct  9 13:38:37 (none) local0.warn cgminer[18769]: Chain 1 set_temperature_offset_value_chain
+Oct  9 13:38:37 (none) local0.warn cgminer[18769]: Chain 1 set_temperature_offset_value_chain_sensor
+Oct  9 13:38:38 (none) local0.notice cgminer[18769]: set_temperature_offset_value_chain_sensor: Chain1 Sensor0 temp offset : 00, 
+Oct  9 13:38:38 (none) local0.warn cgminer[18769]: Chain 2 set_temperature_offset_value_chain
+Oct  9 13:38:38 (none) local0.warn cgminer[18769]: Chain 2 set_temperature_offset_value_chain_sensor
+Oct  9 13:38:38 (none) local0.notice cgminer[18769]: set_temperature_offset_value_chain_sensor: Chain2 Sensor0 temp offset : -1, 
+Oct  9 13:38:38 (none) local0.notice cgminer[18769]: frequency = '644'
+Oct  9 13:38:38 (none) local0.notice cgminer[18769]: dev.timeout = 7936 us
+Oct  9 13:38:43 (none) local0.err cgminer[18769]: cgminer time error total_secs = 1791553123.181132 last_total_secs = 1.000000
+Oct  9 13:38:43 (none) local0.warn cgminer[18769]: Stratum reconnect requested from pool 2 to eu-de02.miningrigrentals.com:50345
+Oct  9 13:38:43 (none) local0.warn cgminer[18769]: Pool 0 stratum+tcp://eu-01.miningrigrentals.com:3333 alive, testing stability
+Oct  9 13:38:43 (none) local0.warn cgminer[18769]: Switching to pool 0 stratum+tcp://eu-01.miningrigrentals.com:3333
+Oct  9 13:38:43 (none) local0.warn cgminer[18769]: Stratum reconnect requested from pool 0 to eu-01.miningrigrentals.com:51632
+Oct  9 13:38:49 (none) local0.warn cgminer[18769]: API running in IP access mode on port 4028 (15)
+Oct  9 13:41:39 (none) local0.err cgminer[18769]: read_temp_func: Chain0 sensor0 local temp is 86 `C, higher than MAX_TEMP
+Oct  9 13:41:40 (none) local0.err cgminer[18769]: Temperature is higher than 85'C for 1 time
+Oct  9 13:41:41 (none) local0.err cgminer[18769]: Temperature is higher than 85'C for 2 time
+Oct  9 13:41:42 (none) local0.err cgminer[18769]: check_miner_status: the temperature is too high, close PIC and need reboot!!!
+Oct  9 13:41:42 (none) local0.err cgminer[18769]: bitmain_scanreg: reg_value = 0x0038dab2 crc5 error,should be 00,but check as 1a
