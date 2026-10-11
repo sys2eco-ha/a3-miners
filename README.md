@@ -16,11 +16,14 @@ Local Home Assistant integration for stock Bitmain Antminer A3 miners. Each conf
 - Stock Antminer A3 firmware with HTTP Digest credentials `root` / `root`.
 - A configuration file at `/config/miners/miners.json`.
 
-## Install
+## Install with HACS
 
-1. Download `integration/a3-miners-ha.zip` from this repository.
-2. Extract `custom_components/a3_miners` into Home Assistant's `/config/custom_components/` directory.
-3. Create `/config/miners/miners.json`:
+1. In HACS, select **Integrations**.
+2. Select **Download custom repository** and enter `sys2eco-ha/a3-miners`.
+3. Download **A3 Miners**.
+4. Restart Home Assistant.
+5. Go to **Settings → Devices & services → Add integration** and add **A3 Miners**.
+6. Create `/config/miners/miners.json`:
 
 ```json
 {
@@ -30,9 +33,6 @@ Local Home Assistant integration for stock Bitmain Antminer A3 miners. Each conf
   }
 }
 ```
-
-4. Restart Home Assistant.
-5. Go to **Settings → Devices & services → Add integration** and add **A3 Miners**.
 
 The integration reads the file when it is set up. Restart Home Assistant after changing the file.
 
@@ -92,8 +92,8 @@ Allow Home Assistant to reach TCP port 80 on each miner. Do not expose miner web
 
 ## HACS status
 
-This repository is **not yet publishable through HACS**. HACS requires a public GitHub repository with `custom_components/a3_miners/` at the repository root, a root `hacs.json`, valid `documentation` and `issue_tracker` URLs in `manifest.json`, and a brand `icon.png`. The current source layout and manifest placeholders do not meet those requirements. Use the manual installation above until the repository is restructured for HACS.
+This repository meets HACS custom-integration repository requirements. Add it as a custom repository in HACS until it is included in the default store.
 
 ## Support
 
-Use the repository issue tracker once one is configured. Include Home Assistant version, integration logs, sanitized `miners.json`, and the affected slot name. Never include credentials or Home Assistant tokens.
+[Open an issue](https://github.com/sys2eco-ha/a3-miners/issues) with Home Assistant version, integration logs, sanitized `miners.json`, and the affected slot name. Never include credentials or Home Assistant tokens.
