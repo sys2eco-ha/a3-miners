@@ -5,6 +5,8 @@ from __future__ import annotations
 import asyncio
 import logging
 import re
+from datetime import timedelta
+from urllib.error import HTTPError, URLError
 import urllib.request
 
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
