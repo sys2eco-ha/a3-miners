@@ -1,0 +1,9 @@
+{
+  "domain": "a3_miners",
+  "name": "A3 Miners",
+  "version": "1.0.0",
+  "documentation": "https://example.invalid/a3_miners",
+  "iot_class": "local_polling",
+  "requirements": [],
+  "codeowners": []
+}

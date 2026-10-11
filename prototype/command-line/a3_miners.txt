@@ -1,0 +1,5 @@
+# A3 maineriai
+192.168.2.150
+192.168.2.198
+
+# 192.168.2.199   (nepasiekiamas pavyzdys)
