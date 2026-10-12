@@ -51,7 +51,7 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
     async def async_step_add(self, user_input=None):
         """Add a miner slot."""
         if user_input is not None:
-            miners = dict(self.config_entry.data[MINERS])
+            miners = dict(self.config_entry.data.get(MINERS, {}))
             miners[_next_slot(miners)] = {
                 CONF_NAME: user_input[CONF_NAME],
                 CONF_HOST: user_input[CONF_HOST],
@@ -66,12 +66,12 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
             self._slot = user_input["slot"]
             return await self.async_step_edit_miner()
         return self.async_show_form(
-            step_id="edit", data_schema=_slot_schema(self.config_entry.data[MINERS])
+            step_id="edit", data_schema=_slot_schema(self.config_entry.data.get(MINERS, {}))
         )
 
     async def async_step_edit_miner(self, user_input=None):
         """Update a configured miner without changing its stable slot."""
-        miners = dict(self.config_entry.data[MINERS])
+        miners = dict(self.config_entry.data.get(MINERS, {}))
         if user_input is not None:
             miners[self._slot] = {
                 CONF_NAME: user_input[CONF_NAME],
@@ -85,7 +85,7 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
 
     async def async_step_remove(self, user_input=None):
         """Remove a miner slot."""
-        miners = dict(self.config_entry.data[MINERS])
+        miners = dict(self.config_entry.data.get(MINERS, {}))
         if user_input is not None:
             if len(miners) == 1:
                 return self.async_show_form(

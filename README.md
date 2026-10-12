@@ -25,7 +25,7 @@ Local Home Assistant integration for stock Bitmain Antminer A3 miners. Each conf
 6. Enter the first miner name and IP address.
 
 To add, edit, or remove miners later, open **A3 Miners** in **Settings → Devices & services**, select **Configure**, then select the required action.
-If you installed version 1.0.0, remove its failed **A3 Miners** entry before adding this version. The old entry has no miner configuration to migrate.
+If an older installation shows a failed setup, update it through HACS, restart Home Assistant, then select **Configure → Add miner**. No JSON file is required.
 
 
 ## Configuration
