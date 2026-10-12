@@ -1,0 +1,56 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add first miner",
+        "data": {
+          "name": "Name",
+          "host": "Host"
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Only one A3 Miners integration can be configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "menu_options": {
+          "add": "Add miner",
+          "edit": "Edit miner",
+          "remove": "Remove miner"
+        }
+      },
+      "add": {
+        "title": "Add miner",
+        "data": {
+          "name": "Name",
+          "host": "Host"
+        }
+      },
+      "edit": {
+        "title": "Choose miner",
+        "data": {
+          "slot": "Miner"
+        }
+      },
+      "edit_miner": {
+        "title": "Edit miner",
+        "data": {
+          "name": "Name",
+          "host": "Host"
+        }
+      },
+      "remove": {
+        "title": "Remove miner",
+        "data": {
+          "slot": "Miner"
+        }
+      }
+    },
+    "error": {
+      "cannot_remove_last": "At least one miner is required."
+    }
+  }
+}

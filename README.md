@@ -14,7 +14,6 @@ Local Home Assistant integration for stock Bitmain Antminer A3 miners. Each conf
 
 - Home Assistant with access to each miner over HTTP.
 - Stock Antminer A3 firmware with HTTP Digest credentials `root` / `root`.
-- A configuration file at `/config/miners/miners.json`.
 
 ## Install with HACS
 
@@ -23,41 +22,20 @@ Local Home Assistant integration for stock Bitmain Antminer A3 miners. Each conf
 3. Download **A3 Miners**.
 4. Restart Home Assistant.
 5. Go to **Settings → Devices & services → Add integration** and add **A3 Miners**.
-6. Create `/config/miners/miners.json`:
+6. Enter the first miner name and IP address.
 
-```json
-{
-  "miner_1": {
-    "name": "Miner 1",
-    "host": "192.168.2.154"
-  }
-}
-```
+To add, edit, or remove miners later, open **A3 Miners** in **Settings → Devices & services**, select **Configure**, then select the required action.
+If you installed version 1.0.0, remove its failed **A3 Miners** entry before adding this version. The old entry has no miner configuration to migrate.
 
-The integration reads the file when it is set up. Restart Home Assistant after changing the file.
 
 ## Configuration
 
-The top-level JSON keys are permanent miner slots. Keep them stable to preserve entity IDs and history.
+The first setup creates `miner_1`. Each added miner gets the next available stable slot key. Slot keys preserve entity history when a configured host stays assigned to its miner.
 
-```json
-{
-  "miner_1": {
-    "name": "Garage A3",
-    "host": "192.168.2.154"
-  },
-  "miner_2": {
-    "name": "Workshop A3",
-    "host": "192.168.2.188"
-  }
-}
-```
-
-| Field | Required | Description |
-| --- | --- | --- |
-| Slot key | Yes | Stable `miner_N` identity. Do not rename it after entities have history. |
-| `name` | No | Device name. Defaults to the title-cased slot key. |
-| `host` | Yes | Miner IPv4 address or hostname. Update this when the miner address changes. |
+| Field | Description |
+| --- | --- |
+| Name | Device name shown in Home Assistant. |
+| Host | Miner IPv4 address or hostname. |
 
 ## Entities
 
