@@ -5,7 +5,7 @@
         "title": "Add first miner",
         "data": {
           "name": "Name",
-          "host": "Host"
+          "host": "IP address or hostname"
         }
       }
     },
@@ -26,7 +26,7 @@
         "title": "Add miner",
         "data": {
           "name": "Name",
-          "host": "Host"
+          "host": "IP address or hostname"
         }
       },
       "edit": {
@@ -39,7 +39,7 @@
         "title": "Edit miner",
         "data": {
           "name": "Name",
-          "host": "Host"
+          "host": "IP address or hostname"
         }
       },
       "remove": {

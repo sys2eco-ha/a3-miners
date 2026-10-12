@@ -1,7 +1,7 @@
 {
   "domain": "a3_miners",
   "name": "A3 Miners",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "documentation": "https://github.com/sys2eco-ha/a3-miners#readme",
   "issue_tracker": "https://github.com/sys2eco-ha/a3-miners/issues",
   "codeowners": ["@sys2eco-ha"],
