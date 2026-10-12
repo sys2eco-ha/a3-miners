@@ -3,6 +3,7 @@
     "step": {
       "user": {
         "title": "Add first miner",
+        "description": "Enter the miner name and IP address, for example {example}.",
         "data": {
           "name": "Name",
           "host": "IP address or hostname"
@@ -16,27 +17,30 @@
   "options": {
     "step": {
       "init": {
-        "menu_options": {
-          "add": "Add miner",
-          "edit": "Edit miner",
-          "remove": "Remove miner"
+        "title": "Manage miners",
+        "description": "Choose what to do with the configured miners.",
+        "data": {
+          "action": "Action"
         }
       },
       "add": {
         "title": "Add miner",
+        "description": "Enter the name and IP address of the miner to add.",
         "data": {
           "name": "Name",
           "host": "IP address or hostname"
         }
       },
       "edit": {
-        "title": "Choose miner",
+        "title": "Edit miner",
+        "description": "Select one of the {count} configured miners.",
         "data": {
           "slot": "Miner"
         }
       },
       "edit_miner": {
         "title": "Edit miner",
+        "description": "Update the name or IP address of {slot}.",
         "data": {
           "name": "Name",
           "host": "IP address or hostname"
@@ -44,6 +48,7 @@
       },
       "remove": {
         "title": "Remove miner",
+        "description": "{count} miner(s) configured. Select the miner to remove.",
         "data": {
           "slot": "Miner"
         }
