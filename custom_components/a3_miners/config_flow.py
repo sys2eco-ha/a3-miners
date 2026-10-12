@@ -6,12 +6,24 @@ import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.core import callback
+from homeassistant.helpers.selector import (
+    SelectOptionDict,
+    SelectSelector,
+    SelectSelectorConfig,
+)
 
-from .const import CONF_HOST, CONF_NAME, DOMAIN, MINERS
+from .const import CONF_ACTION, CONF_HOST, CONF_NAME, DOMAIN, MINERS
+
+ACTIONS = (
+    SelectOptionDict(value="add", label="Add miner"),
+    SelectOptionDict(value="edit", label="Edit miner"),
+    SelectOptionDict(value="remove", label="Remove miner"),
+)
 
 
 class A3MinersConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Configure the first A3 miner."""
+
     VERSION = 1
 
     async def async_step_user(self, user_input=None):
@@ -30,7 +42,11 @@ class A3MinersConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     }
                 },
             )
-        return self.async_show_form(step_id="user", data_schema=_miner_schema())
+        return self.async_show_form(
+            step_id="user",
+            data_schema=_miner_schema(),
+            description_placeholders={"example": "192.168.2.154"},
+        )
 
     @staticmethod
     @callback
@@ -43,9 +59,23 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
     """Add, edit, or remove configured miners."""
 
     async def async_step_init(self, user_input=None):
-        """Show miner management actions."""
-        return self.async_show_menu(
-            step_id="init", menu_options=["add", "edit", "remove"]
+        """Choose a miner management action."""
+        actions = {
+            "add": self.async_step_add,
+            "edit": self.async_step_edit,
+            "remove": self.async_step_remove,
+        }
+        if user_input is not None:
+            return await actions[user_input[CONF_ACTION]]()
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_ACTION): SelectSelector(
+                        SelectSelectorConfig(options=list(ACTIONS))
+                    )
+                }
+            ),
         )
 
     async def async_step_add(self, user_input=None):
@@ -65,8 +95,11 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
         if user_input is not None:
             self._slot = user_input["slot"]
             return await self.async_step_edit_miner()
+        miners = self.config_entry.data.get(MINERS, {})
         return self.async_show_form(
-            step_id="edit", data_schema=_slot_schema(self.config_entry.data.get(MINERS, {}))
+            step_id="edit",
+            data_schema=_slot_schema(miners),
+            description_placeholders={"count": str(len(miners))},
         )
 
     async def async_step_edit_miner(self, user_input=None):
@@ -80,7 +113,9 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
             await self._async_save_miners(miners)
             return self.async_create_entry(data={})
         return self.async_show_form(
-            step_id="edit_miner", data_schema=_miner_schema(miners[self._slot])
+            step_id="edit_miner",
+            data_schema=_miner_schema(miners[self._slot]),
+            description_placeholders={"slot": self._slot},
         )
 
     async def async_step_remove(self, user_input=None):
@@ -92,13 +127,19 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
                     step_id="remove",
                     data_schema=_slot_schema(miners),
                     errors={"base": "cannot_remove_last"},
+                    description_placeholders={"count": "1"},
                 )
             miners.pop(user_input["slot"])
             await self._async_save_miners(miners)
             return self.async_create_entry(data={})
-        return self.async_show_form(step_id="remove", data_schema=_slot_schema(miners))
+        return self.async_show_form(
+            step_id="remove",
+            data_schema=_slot_schema(miners),
+            description_placeholders={"count": str(len(miners))},
+        )
 
     async def _async_save_miners(self, miners):
+        """Store miners on the config entry and reload the integration."""
         self.hass.config_entries.async_update_entry(
             self.config_entry, data={MINERS: miners}
         )
