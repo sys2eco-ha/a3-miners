@@ -6,21 +6,15 @@ Home Assistant integracija stock firmware `Antminer A3` mineriams. Ji turi kurti
 
 ## Struktūra
 
-- `integration/component/custom_components/a3_miners/` — kuriamas HA custom component.
+- `custom_components/a3_miners/` — HA custom component; HACS custom repository šaknis.
 - `integration/a3-miners-ha.zip` — diegimo archyvas; atnaujink jį tik po komponento pakeitimų.
-- `integration/component/miners/miners.json` — pavyzdinė konfigūracija.
+- `hacs.json`, `.github/workflows/validate.yml` — HACS ir hassfest validacija.
 - `prototype/command-line/` — ankstesnis vieno `sensor.a3_miners` sprendimas; neplėsti jo, jis nesukuria atskirų istorinių entity.
 - `diagnostics/` — užfiksuoti HTTP, CGMiner API ir kernel log atsakymai; naudok tik kaip diagnostikos pavyzdžius.
 
 ## Kontraktas
 
-Konfigūracijos failas HA pusėje:
-
-```text
-/config/miners/miners.json
-```
-
-Schema:
+Konfigūracija įvedama HA UI per integracijos config flow (`Add integration` arba `Configure`) ir saugoma `config_entry.data["miners"]`:
 
 ```json
 {
@@ -28,8 +22,9 @@ Schema:
 }
 ```
 
-- `miner_N` yra pastovus entity tapatybės raktas.
-- `host` gali keistis; entity vardai ir jų istorija neturi keistis.
+- `miner_N` yra pastovus entity tapatybės raktas; priskiriamas eilės tvarka.
+- `host` ir `name` keičiami per `Configure → Edit miner`; entity vardai ir jų istorija neturi keistis.
+- Rankinis `/config/miners/miners.json` failas nenaudojamas.
 - Minerio MAC renkamas rodyti įrenginio tapatybę, bet šioje fazėje nenaudojamas automatiškai perrišti slotus.
 
 ## API
@@ -53,5 +48,7 @@ Kiekvienam `miner_N` privalo būti atskiros entity: hashrate, vidutinis hashrate
 - Nerašyk į A3 HTTP API; tik skaityk.
 - Nenaudok MQTT šiame etape.
 - Prieš diegimą HA tikrink Python sintaksę ir parserį su `diagnostics/` arba gyvu A3 API.
+- Prieš release palauk, kol `.github/workflows/validate.yml` (hassfest ir HACS) praeina be klaidų.
+- Nekomitink `__pycache__` ar `.pyc` failų; ZIP archyvas neturi jų turėti.
 - HA diegimas pirmiausia turi būti patikrintas su vienu mineriu; tik tada keisti arba išmesti seną `command_line` sprendimą.
 - Niekada neįrašyk HA tokenų, MQTT slaptažodžių ar kitų paslapčių į failus ar Git.
