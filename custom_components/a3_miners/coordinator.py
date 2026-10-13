@@ -33,6 +33,8 @@ MAX_SCAN_HOSTS = 8192
 SCAN_CONCURRENCY = 128
 SCAN_TIMEOUT = 2
 
+_RANGE_PATTERN = re.compile(r"^(?P<start>[^-\s]+)\s*-\s*(?P<end>[^-\s]+)$")
+
 
 def _value(text: str, pattern: str, cast=str):
     match = re.search(pattern, text)
@@ -110,40 +112,51 @@ async def async_read_mac(hass: HomeAssistant, host: str) -> str:
     return await hass.async_add_executor_job(read_mac, host)
 
 
-def parse_networks(entries) -> list[str]:
-    """Return the ranges as normalised CIDR strings, without duplicates."""
-    networks = []
-    for entry in entries:
-        value = entry.strip()
+class ReversedRange(ValueError):
+    """The range starts after it ends."""
+
+
+def parse_ranges(text: str) -> list[str]:
+    """Return the requested ranges as normalised "start - end" strings."""
+    ranges = []
+    for part in text.split(","):
+        value = part.strip()
         if not value:
             continue
+        match = _RANGE_PATTERN.match(value)
+        if not match:
+            raise ValueError(value)
         try:
-            network = str(ipaddress.ip_network(value, strict=False))
-        except ValueError as err:
-            raise ValueError(f"Invalid range: {value}") from err
-        if network not in networks:
-            networks.append(network)
-    return networks
+            start = ipaddress.IPv4Address(match["start"])
+            end = ipaddress.IPv4Address(match["end"])
+        except ipaddress.AddressValueError as err:
+            raise ValueError(value) from err
+        if start > end:
+            raise ReversedRange(value)
+        normalised = f"{start} - {end}"
+        if normalised not in ranges:
+            ranges.append(normalised)
+    return ranges
 
 
-def count_hosts(networks) -> int:
+def _range_bounds(value: str) -> tuple[ipaddress.IPv4Address, ipaddress.IPv4Address]:
+    start, _, end = value.partition(" - ")
+    return ipaddress.IPv4Address(start), ipaddress.IPv4Address(end)
+
+
+def count_hosts(ranges) -> int:
     """Return how many addresses the ranges hold."""
-    total = 0
-    for network in networks:
-        parsed = ipaddress.ip_network(network)
-        total += (
-            parsed.num_addresses
-            if parsed.prefixlen >= 31
-            else parsed.num_addresses - 2
-        )
-    return total
+    return sum(
+        int(end) - int(start) + 1 for start, end in map(_range_bounds, ranges)
+    )
 
 
-def iter_hosts(networks):
-    """Yield every host address inside the ranges."""
-    for network in networks:
-        for host in ipaddress.ip_network(network).hosts():
-            yield str(host)
+def iter_hosts(ranges):
+    """Yield every address inside the ranges."""
+    for value in ranges:
+        start, end = _range_bounds(value)
+        for number in range(int(start), int(end) + 1):
+            yield str(ipaddress.IPv4Address(number))
 
 
 def _probe(host: str) -> tuple[str, str] | None:
