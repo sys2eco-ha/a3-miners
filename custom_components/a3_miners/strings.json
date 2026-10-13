@@ -65,14 +65,14 @@
       },
       "scan": {
         "title": "Scan network",
-        "description": "Scanning is manual only and uses these ranges: {ranges}",
+        "description": "Scanning runs only when you start it. Ranges: {ranges}",
         "data": {
           "action": "Action"
         }
       },
       "scan_ranges": {
         "title": "Scan ranges",
-        "description": "One range per line, for example 192.168.2.0/24 or a single address like 192.168.2.154. Any number of ranges is allowed, up to 8192 addresses in total. Ranges are scanned only when you start a scan; a large scan can take a minute or two.",
+        "description": "Enter the ranges to scan, smaller address first, for example 172.16.5.10 - 172.16.5.18. Separate several ranges with commas. A single address is written 172.16.5.10 - 172.16.5.10. Up to 8192 addresses in total.\n\n{problem}",
         "data": {
           "networks_text": "IP ranges"
         }
@@ -88,10 +88,11 @@
     "error": {
       "cannot_connect": "Cannot reach the miner or read its MAC address.",
       "cannot_remove_last": "At least one miner is required.",
-      "invalid_range": "Use IP ranges like 192.168.2.0/24 or single addresses like 192.168.2.154.",
-      "no_ranges": "Enter at least one IP range.",
+      "invalid_range": "Use the form 172.16.5.10 - 172.16.5.18. Separate several ranges with commas.",
       "mac_mismatch": "This IP address belongs to a different miner. Enter the address of the selected miner.",
-      "range_too_large": "Too many addresses. Keep the total at 1024 or fewer."
+      "no_ranges": "Enter at least one range.",
+      "range_reversed": "The first address must be the smaller one.",
+      "range_too_large": "Too many addresses. Keep the total at 8192 or fewer."
     }
   }
 }

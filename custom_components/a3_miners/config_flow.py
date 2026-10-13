@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import re
-
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -29,10 +27,11 @@ from .const import (
 )
 from .coordinator import (
     MAX_SCAN_HOSTS,
+    ReversedRange,
     async_read_mac,
     async_scan,
     count_hosts,
-    parse_networks,
+    parse_ranges,
 )
 
 ACTIONS = (
@@ -260,17 +259,21 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
     async def async_step_scan_ranges(self, user_input=None):
         """Store the ranges that scanning is allowed to use."""
         errors = {}
+        problem = ""
         current = self.config_entry.data.get(CONF_NETWORKS) or []
         if user_input is not None:
-            ranges = re.split(r"[\s,;]+", user_input[CONF_NETWORKS_TEXT])
             try:
-                networks = parse_networks(ranges)
+                networks = parse_ranges(user_input[CONF_NETWORKS_TEXT])
                 if not networks:
                     errors["base"] = "no_ranges"
                 elif count_hosts(networks) > MAX_SCAN_HOSTS:
                     errors["base"] = "range_too_large"
-            except ValueError:
+            except ReversedRange as err:
+                errors["base"] = "range_reversed"
+                problem = f"Not accepted: {err}"
+            except ValueError as err:
                 errors["base"] = "invalid_range"
+                problem = f"Not accepted: {err}"
             else:
                 if not errors:
                     self._async_save(networks=networks)
@@ -281,11 +284,12 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
             data_schema=vol.Schema(
                 {
                     vol.Required(
-                        CONF_NETWORKS_TEXT, default="\n".join(current)
+                        CONF_NETWORKS_TEXT, default=",\n".join(current)
                     ): TextSelector(TextSelectorConfig(multiline=True))
                 }
             ),
             errors=errors,
+            description_placeholders={"problem": problem},
         )
 
     async def async_step_scan_result(self, user_input=None):
