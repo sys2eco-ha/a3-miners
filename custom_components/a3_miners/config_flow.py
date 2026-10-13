@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -10,6 +12,8 @@ from homeassistant.helpers.selector import (
     SelectOptionDict,
     SelectSelector,
     SelectSelectorConfig,
+    TextSelector,
+    TextSelectorConfig,
 )
 
 from .const import (
@@ -18,20 +22,34 @@ from .const import (
     CONF_IP_CHANGED,
     CONF_MAC,
     CONF_NAME,
+    CONF_NETWORKS,
+    CONF_NETWORKS_TEXT,
     DOMAIN,
     MINERS,
 )
-from .coordinator import async_read_mac
+from .coordinator import (
+    MAX_SCAN_HOSTS,
+    async_read_mac,
+    async_scan,
+    count_hosts,
+    parse_networks,
+)
 
 ACTIONS = (
     SelectOptionDict(value="add", label="Add miner"),
     SelectOptionDict(value="edit", label="Edit miner"),
     SelectOptionDict(value="remove", label="Remove miner"),
+    SelectOptionDict(value="scan", label="Scan network"),
 )
 
 CONNECT_CHOICES = (
     SelectOptionDict(value="yes", label="Yes, connect the existing history"),
     SelectOptionDict(value="no", label="No, add as a new device"),
+)
+
+SCAN_CHOICES = (
+    SelectOptionDict(value="scan", label="Scan now"),
+    SelectOptionDict(value="ranges", label="Change ranges"),
 )
 
 
@@ -76,10 +94,11 @@ class A3MinersConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 class A3MinersOptionsFlow(config_entries.OptionsFlow):
-    """Add, edit, or remove configured miners."""
+    """Add, edit, remove, or scan for miners."""
 
     _slot: str | None = None
     _pending: dict | None = None
+    _found: dict[str, str] | None = None
 
     async def async_step_init(self, user_input=None):
         """Choose a miner management action."""
@@ -87,6 +106,7 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
             "add": self.async_step_add,
             "edit": self.async_step_edit,
             "remove": self.async_step_remove,
+            "scan": self.async_step_scan,
         }
         if user_input is not None:
             return await actions[user_input[CONF_ACTION]]()
@@ -139,7 +159,7 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
                     CONF_MAC: self._pending[CONF_MAC],
                     CONF_IP_CHANGED: True,
                 }
-                self._async_save(miners)
+                self._async_save(miners=miners)
             else:
                 self._async_add_miner(
                     self._pending[CONF_NAME],
@@ -191,7 +211,7 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
                         CONF_IP_CHANGED: record.get(CONF_IP_CHANGED, False)
                         or user_input[CONF_HOST] != record.get(CONF_HOST),
                     }
-                    self._async_save(miners)
+                    self._async_save(miners=miners)
                     return self.async_create_entry(data={})
         return self.async_show_form(
             step_id="edit_miner",
@@ -211,9 +231,149 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
                     errors={"base": "cannot_remove_last"},
                 )
             miners.pop(user_input["slot"])
-            self._async_save(miners)
+            self._async_save(miners=miners)
             return self.async_create_entry(data={})
         return self.async_show_form(step_id="remove", data_schema=_slot_schema(miners))
+
+    async def async_step_scan(self, user_input=None):
+        """Scan the configured ranges for miners."""
+        ranges = self.config_entry.data.get(CONF_NETWORKS) or []
+        if not ranges:
+            return await self.async_step_scan_ranges()
+        if user_input is not None:
+            if user_input[CONF_ACTION] == "ranges":
+                return await self.async_step_scan_ranges()
+            self._found = await async_scan(ranges)
+            return await self.async_step_scan_result()
+        return self.async_show_form(
+            step_id="scan",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_ACTION): SelectSelector(
+                        SelectSelectorConfig(options=list(SCAN_CHOICES))
+                    )
+                }
+            ),
+            description_placeholders={"ranges": ", ".join(ranges)},
+        )
+
+    async def async_step_scan_ranges(self, user_input=None):
+        """Store the ranges that scanning is allowed to use."""
+        errors = {}
+        current = self.config_entry.data.get(CONF_NETWORKS) or []
+        if user_input is not None:
+            try:
+                networks = parse_networks(
+                    re.split(r"[\s,;]+", user_input[CONF_NETWORKS_TEXT])
+                )
+                if not networks:
+                    raise ValueError("No ranges given")
+                if count_hosts(networks) > MAX_SCAN_HOSTS:
+                    errors["base"] = "range_too_large"
+            except ValueError:
+                errors["base"] = "invalid_range"
+            else:
+                self._async_save(networks=networks)
+                self._found = await async_scan(networks)
+                return await self.async_step_scan_result()
+        return self.async_show_form(
+            step_id="scan_ranges",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_NETWORKS_TEXT, default="\n".join(current)
+                    ): TextSelector(TextSelectorConfig(multiline=True))
+                }
+            ),
+            errors=errors,
+        )
+
+    async def async_step_scan_result(self, user_input=None):
+        """Show what the scan found and apply the chosen changes."""
+        if user_input is not None:
+            self._async_apply_scan(user_input.get("apply") or [])
+            return self.async_create_entry(data={})
+        return self.async_show_form(
+            step_id="scan_result",
+            data_schema=vol.Schema(
+                {
+                    vol.Optional("apply", default=[]): SelectSelector(
+                        SelectSelectorConfig(
+                            options=self._scan_options(),
+                            multiple=True,
+                        )
+                    )
+                }
+            ),
+            description_placeholders={"found": self._scan_summary()},
+        )
+
+    def _scan_options(self) -> list[SelectOptionDict]:
+        """Build one selectable entry per scan result."""
+        options = []
+        known = self._known_macs()
+        miners = self.config_entry.data.get(MINERS, {})
+        for host, mac in sorted((self._found or {}).items()):
+            slot = known.get(mac)
+            if slot is None:
+                options.append(
+                    SelectOptionDict(
+                        value=f"add|{host}|{mac}",
+                        label=f"{host} — {mac} — new",
+                    )
+                )
+            elif miners[slot].get(CONF_HOST) != host:
+                options.append(
+                    SelectOptionDict(
+                        value=f"update|{slot}|{host}",
+                        label=f"{host} — {mac} — known, update IP",
+                    )
+                )
+        return options
+
+    def _scan_summary(self) -> str:
+        """Render the scan result as plain text."""
+        if not self._found:
+            return "No miner answered in the configured ranges."
+        known = self._known_macs()
+        miners = self.config_entry.data.get(MINERS, {})
+        lines = []
+        for host, mac in sorted((self._found or {}).items()):
+            slot = known.get(mac)
+            if slot is None:
+                state = "new"
+            else:
+                current = miners[slot].get(CONF_HOST)
+                state = "known" if current == host else f"known, configured as {current}"
+            lines.append(f"{host} — {mac} — {state}")
+        return "\n".join(lines)
+
+    def _async_apply_scan(self, values) -> None:
+        """Add found miners and re-point known ones to their current address."""
+        miners = dict(self.config_entry.data.get(MINERS, {}))
+        changed = False
+        for value in values:
+            kind, _, rest = value.partition("|")
+            if kind == "add":
+                host, _, mac = rest.partition("|")
+                miners[_slot_for_mac(mac, miners)] = {
+                    CONF_NAME: f"A3 {host.rsplit('.', 1)[-1]}",
+                    CONF_HOST: host,
+                    CONF_MAC: mac,
+                    CONF_IP_CHANGED: False,
+                }
+                changed = True
+            elif kind == "update":
+                slot, _, host = rest.partition("|")
+                if slot in miners:
+                    miners[slot] = {
+                        **miners[slot],
+                        CONF_HOST: host,
+                        CONF_IP_CHANGED: True,
+                    }
+                    changed = True
+        if changed:
+            self._async_save(miners=miners)
 
     def _known_macs(self) -> dict[str, str]:
         """Map every MAC already known to its slot."""
@@ -237,16 +397,20 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
             CONF_MAC: mac,
             CONF_IP_CHANGED: False,
         }
-        self._async_save(miners)
+        self._async_save(miners=miners)
 
-    def _async_save(self, miners: dict) -> None:
-        """Store miners and reload the integration once the flow finishes."""
-        self.hass.config_entries.async_update_entry(
-            self.config_entry, data={MINERS: miners}
-        )
-        self.hass.async_create_task(
-            self.hass.config_entries.async_reload(self.config_entry.entry_id)
-        )
+    def _async_save(self, *, miners: dict | None = None, networks=None) -> None:
+        """Store changes, reloading only when the miner list changed."""
+        data = dict(self.config_entry.data)
+        if miners is not None:
+            data[MINERS] = miners
+        if networks is not None:
+            data[CONF_NETWORKS] = networks
+        self.hass.config_entries.async_update_entry(self.config_entry, data=data)
+        if miners is not None:
+            self.hass.async_create_task(
+                self.hass.config_entries.async_reload(self.config_entry.entry_id)
+            )
 
 
 def _miner_schema(defaults=None):

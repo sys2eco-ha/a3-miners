@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import asyncio
+import ipaddress
 import logging
 import re
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from urllib.error import HTTPError, URLError
 
@@ -26,6 +28,10 @@ from .const import (
 )
 
 _LOGGER = logging.getLogger(__name__)
+
+MAX_SCAN_HOSTS = 8192
+SCAN_CONCURRENCY = 128
+SCAN_TIMEOUT = 2
 
 
 def _value(text: str, pattern: str, cast=str):
@@ -80,14 +86,14 @@ def _parse_status(text: str) -> dict:
     return data
 
 
-def _fetch(host: str, path: str) -> str:
+def _fetch(host: str, path: str, timeout: int = 5) -> str:
     url = f"http://{host}{path}"
     password_manager = urllib.request.HTTPPasswordMgrWithDefaultRealm()
     password_manager.add_password(None, url, DEFAULT_USERNAME, DEFAULT_PASSWORD)
     opener = urllib.request.build_opener(
         urllib.request.HTTPDigestAuthHandler(password_manager)
     )
-    with opener.open(url, timeout=5) as response:
+    with opener.open(url, timeout=timeout) as response:
         return response.read().decode("utf-8", "replace")
 
 
@@ -102,6 +108,75 @@ def read_mac(host: str) -> str:
 async def async_read_mac(hass: HomeAssistant, host: str) -> str:
     """Read the MAC address of a miner without blocking the event loop."""
     return await hass.async_add_executor_job(read_mac, host)
+
+
+def parse_networks(entries) -> list[str]:
+    """Return the ranges as normalised CIDR strings, without duplicates."""
+    networks = []
+    for entry in entries:
+        value = entry.strip()
+        if not value:
+            continue
+        try:
+            network = str(ipaddress.ip_network(value, strict=False))
+        except ValueError as err:
+            raise ValueError(f"Invalid range: {value}") from err
+        if network not in networks:
+            networks.append(network)
+    return networks
+
+
+def count_hosts(networks) -> int:
+    """Return how many addresses the ranges hold."""
+    total = 0
+    for network in networks:
+        parsed = ipaddress.ip_network(network)
+        total += (
+            parsed.num_addresses
+            if parsed.prefixlen >= 31
+            else parsed.num_addresses - 2
+        )
+    return total
+
+
+def iter_hosts(networks):
+    """Yield every host address inside the ranges."""
+    for network in networks:
+        for host in ipaddress.ip_network(network).hosts():
+            yield str(host)
+
+
+def _probe(host: str) -> tuple[str, str] | None:
+    """Return the host and its MAC address, or None when nothing answers."""
+    try:
+        text = _fetch(host, NETWORK_PATH, SCAN_TIMEOUT)
+    except (HTTPError, URLError, OSError, ValueError):
+        return None
+    mac = _value(text, r'"macaddr":"([^"]+)"')
+    return (host, format_mac(mac)) if mac else None
+
+
+async def async_scan(networks) -> dict[str, str]:
+    """Probe every host in the ranges and map IP address to MAC address."""
+    hosts = list(iter_hosts(networks))
+    if not hosts:
+        return {}
+    loop = asyncio.get_running_loop()
+    executor = ThreadPoolExecutor(
+        max_workers=SCAN_CONCURRENCY, thread_name_prefix="a3_scan"
+    )
+    try:
+        results = await asyncio.gather(
+            *(loop.run_in_executor(executor, _probe, host) for host in hosts)
+        )
+    finally:
+        executor.shutdown(wait=True)
+    found = {}
+    for result in results:
+        if result is not None:
+            host, mac = result
+            found[host] = mac
+    return found
 
 
 def poll_miner(host: str, mac: str | None = None) -> dict:
@@ -180,7 +255,7 @@ class A3Coordinator(DataUpdateCoordinator):
             return
         try:
             self.hass.config_entries.async_update_entry(
-                self.entry, data={MINERS: miners}
+                self.entry, data={**self.entry.data, MINERS: miners}
             )
         except Exception:  # noqa: BLE001 - never break polling for a bookkeeping write
             _LOGGER.debug("Could not store learned MAC addresses", exc_info=True)
