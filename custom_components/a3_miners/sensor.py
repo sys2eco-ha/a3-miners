@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
-
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, SensorStateClass
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -85,4 +83,9 @@ class A3Sensor(CoordinatorEntity, SensorEntity):
     @property
     def extra_state_attributes(self):
         data = self.coordinator.data[self._slot]
-        return {"host": data.get("host"), "mac": data.get("mac")}
+        config = self.coordinator.miners[self._slot]
+        return {
+            "host": data.get("host"),
+            "mac": data.get("mac"),
+            "ip_changed": config.get("ip_changed", False),
+        }
