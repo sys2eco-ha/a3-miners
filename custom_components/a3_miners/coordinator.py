@@ -169,26 +169,29 @@ def _probe(host: str) -> tuple[str, str] | None:
     return (host, format_mac(mac)) if mac else None
 
 
-async def async_scan(networks) -> dict[str, str]:
+async def async_scan(ranges, progress=None) -> dict[str, str]:
     """Probe every host in the ranges and map IP address to MAC address."""
-    hosts = list(iter_hosts(networks))
+    hosts = list(iter_hosts(ranges))
     if not hosts:
         return {}
     loop = asyncio.get_running_loop()
     executor = ThreadPoolExecutor(
         max_workers=SCAN_CONCURRENCY, thread_name_prefix="a3_scan"
     )
+    found: dict[str, str] = {}
+    done = 0
     try:
-        results = await asyncio.gather(
-            *(loop.run_in_executor(executor, _probe, host) for host in hosts)
-        )
+        futures = [loop.run_in_executor(executor, _probe, host) for host in hosts]
+        for future in asyncio.as_completed(futures):
+            result = await future
+            done += 1
+            if result is not None:
+                host, mac = result
+                found[host] = mac
+            if progress is not None:
+                progress(done, len(hosts))
     finally:
-        executor.shutdown(wait=True)
-    found = {}
-    for result in results:
-        if result is not None:
-            host, mac = result
-            found[host] = mac
+        executor.shutdown(wait=False, cancel_futures=True)
     return found
 
 

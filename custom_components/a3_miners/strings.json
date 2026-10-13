@@ -85,6 +85,9 @@
         }
       }
     },
+    "progress": {
+      "scanning": "Scanning the network"
+    },
     "error": {
       "cannot_connect": "Cannot reach the miner or read its MAC address.",
       "cannot_remove_last": "At least one miner is required.",

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -33,6 +35,8 @@ from .coordinator import (
     count_hosts,
     parse_ranges,
 )
+
+_LOGGER = logging.getLogger(__name__)
 
 ACTIONS = (
     SelectOptionDict(value="add", label="Add miner"),
@@ -98,6 +102,7 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
     _slot: str | None = None
     _pending: dict | None = None
     _found: dict[str, str] | None = None
+    _scan_task = None
 
     async def async_step_init(self, user_input=None):
         """Choose a miner management action."""
@@ -239,11 +244,18 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
         ranges = self.config_entry.data.get(CONF_NETWORKS) or []
         if not ranges:
             return await self.async_step_scan_ranges()
+        if self._scan_task is not None:
+            task, self._scan_task = self._scan_task, None
+            try:
+                self._found = task.result()
+            except Exception:  # noqa: BLE001 - a failed scan must not break the flow
+                _LOGGER.warning("Network scan failed", exc_info=True)
+                self._found = {}
+            return self.async_show_progress_done(next_step_id="scan_result")
         if user_input is not None:
             if user_input[CONF_ACTION] == "ranges":
                 return await self.async_step_scan_ranges()
-            self._found = await async_scan(ranges)
-            return await self.async_step_scan_result()
+            return self._async_start_scan(ranges)
         return self.async_show_form(
             step_id="scan",
             data_schema=vol.Schema(
@@ -255,6 +267,22 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
             ),
             description_placeholders={"ranges": ", ".join(ranges)},
         )
+
+    def _async_start_scan(self, ranges):
+        """Start the scan in the background and report its progress."""
+        self._scan_task = self.hass.async_create_task(
+            async_scan(ranges, self._async_scan_progress)
+        )
+        return self.async_show_progress(
+            step_id="scan",
+            progress_action="scanning",
+            progress_task=self._scan_task,
+        )
+
+    @callback
+    def _async_scan_progress(self, done: int, total: int) -> None:
+        """Report how much of the scan has finished."""
+        self.async_update_progress(done / total if total else 1.0)
 
     async def async_step_scan_ranges(self, user_input=None):
         """Store the ranges that scanning is allowed to use."""
@@ -277,8 +305,7 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
             else:
                 if not errors:
                     self._async_save(networks=networks)
-                    self._found = await async_scan(networks)
-                    return await self.async_step_scan_result()
+                    return self._async_start_scan(networks)
         return self.async_show_form(
             step_id="scan_ranges",
             data_schema=vol.Schema(
