@@ -3,12 +3,15 @@
     "step": {
       "user": {
         "title": "Add first miner",
-        "description": "Enter the miner name and IP address, for example {example}.",
+        "description": "Enter the miner name and its current IP address. The miner is identified by its MAC address.",
         "data": {
           "name": "Name",
           "host": "IP address or hostname"
         }
       }
+    },
+    "error": {
+      "cannot_connect": "Cannot reach the miner or read its MAC address."
     },
     "abort": {
       "single_instance_allowed": "Only one A3 Miners integration can be configured."
@@ -25,22 +28,29 @@
       },
       "add": {
         "title": "Add miner",
-        "description": "Enter the name and IP address of the miner to add.",
+        "description": "Enter the miner name and its current IP address. The miner is identified by its MAC address.",
         "data": {
           "name": "Name",
           "host": "IP address or hostname"
         }
       },
+      "add_known": {
+        "title": "Miner already known",
+        "description": "MAC address {mac} is already configured. Connect this miner to its existing history?",
+        "data": {
+          "connect": "History"
+        }
+      },
       "edit": {
         "title": "Edit miner",
-        "description": "Select one of the {count} configured miners.",
+        "description": "Select the miner to edit.",
         "data": {
           "slot": "Miner"
         }
       },
       "edit_miner": {
         "title": "Edit miner",
-        "description": "Update the name or IP address of {slot}.",
+        "description": "Update the name or IP address of the miner with MAC address {mac}.",
         "data": {
           "name": "Name",
           "host": "IP address or hostname"
@@ -48,14 +58,16 @@
       },
       "remove": {
         "title": "Remove miner",
-        "description": "{count} miner(s) configured. Select the miner to remove.",
+        "description": "Select the miner to remove.",
         "data": {
           "slot": "Miner"
         }
       }
     },
     "error": {
-      "cannot_remove_last": "At least one miner is required."
+      "cannot_connect": "Cannot reach the miner or read its MAC address.",
+      "cannot_remove_last": "At least one miner is required.",
+      "mac_mismatch": "This IP address belongs to a different miner. Enter the address of the selected miner."
     }
   }
 }

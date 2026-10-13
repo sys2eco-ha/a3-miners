@@ -5,20 +5,27 @@ from __future__ import annotations
 import asyncio
 import logging
 import re
+import urllib.request
 from datetime import timedelta
 from urllib.error import HTTPError, URLError
-import urllib.request
 
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import format_mac
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
     API_PATH,
+    CONF_HOST,
+    CONF_MAC,
     DEFAULT_PASSWORD,
     DEFAULT_USERNAME,
     DOMAIN,
+    MINERS,
     NETWORK_PATH,
     OVERHEAT_TEMPERATURE,
 )
+
+_LOGGER = logging.getLogger(__name__)
 
 
 def _value(text: str, pattern: str, cast=str):
@@ -84,14 +91,26 @@ def _fetch(host: str, path: str) -> str:
         return response.read().decode("utf-8", "replace")
 
 
+def read_mac(host: str) -> str:
+    """Return the normalised MAC address reported by the miner at host."""
+    mac = _value(_fetch(host, NETWORK_PATH), r'"macaddr":"([^"]+)"')
+    if not mac:
+        raise ValueError(f"No MAC address reported by {host}")
+    return format_mac(mac)
+
+
+async def async_read_mac(hass: HomeAssistant, host: str) -> str:
+    """Read the MAC address of a miner without blocking the event loop."""
+    return await hass.async_add_executor_job(read_mac, host)
+
+
 def poll_miner(host: str, mac: str | None = None) -> dict:
     data = _parse_status(_fetch(host, API_PATH))
     data["host"] = host
     if mac is None:
         try:
-            network = _fetch(host, NETWORK_PATH)
-            mac = _value(network, r'"macaddr":"([^"]+)"')
-        except (HTTPError, URLError, OSError):
+            mac = read_mac(host)
+        except (HTTPError, URLError, OSError, ValueError):
             mac = None
     data["mac"] = mac
     data["reachable"] = True
@@ -101,18 +120,23 @@ def poll_miner(host: str, mac: str | None = None) -> dict:
 class A3Coordinator(DataUpdateCoordinator):
     """Fetch every configured miner once per update."""
 
-    def __init__(self, hass, miners: dict, interval: int) -> None:
+    def __init__(self, hass: HomeAssistant, entry, miners: dict, interval: int) -> None:
         super().__init__(
             hass,
-            logger=logging.getLogger(__name__),
+            logger=_LOGGER,
             name=DOMAIN,
             update_interval=timedelta(seconds=interval),
         )
+        self.entry = entry
         self.miners = miners
-        self.macs = {}
+        self.macs = {
+            slot: config[CONF_MAC]
+            for slot, config in miners.items()
+            if config.get(CONF_MAC)
+        }
 
     async def _async_poll(self, slot: str, config: dict) -> tuple[str, dict]:
-        host = config["host"]
+        host = config[CONF_HOST]
         try:
             result = await self.hass.async_add_executor_job(
                 poll_miner, host, self.macs.get(slot)
@@ -134,6 +158,29 @@ class A3Coordinator(DataUpdateCoordinator):
     async def _async_update_data(self) -> dict:
         if not self.miners:
             raise UpdateFailed("No miners configured")
-        return dict(await asyncio.gather(
-            *(self._async_poll(slot, config) for slot, config in self.miners.items())
-        ))
+        data = dict(
+            await asyncio.gather(
+                *(self._async_poll(slot, config) for slot, config in self.miners.items())
+            )
+        )
+        self._store_macs()
+        return data
+
+    def _store_macs(self) -> None:
+        """Persist learned MAC addresses so they survive restarts."""
+        stored = self.entry.data.get(MINERS) or {}
+        miners = dict(stored)
+        changed = False
+        for slot, mac in self.macs.items():
+            record = miners.get(slot)
+            if record and mac and record.get(CONF_MAC) != mac:
+                miners[slot] = {**record, CONF_MAC: mac}
+                changed = True
+        if not changed:
+            return
+        try:
+            self.hass.config_entries.async_update_entry(
+                self.entry, data={MINERS: miners}
+            )
+        except Exception:  # noqa: BLE001 - never break polling for a bookkeeping write
+            _LOGGER.debug("Could not store learned MAC addresses", exc_info=True)
