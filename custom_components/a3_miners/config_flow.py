@@ -262,20 +262,20 @@ class A3MinersOptionsFlow(config_entries.OptionsFlow):
         errors = {}
         current = self.config_entry.data.get(CONF_NETWORKS) or []
         if user_input is not None:
+            ranges = re.split(r"[\s,;]+", user_input[CONF_NETWORKS_TEXT])
             try:
-                networks = parse_networks(
-                    re.split(r"[\s,;]+", user_input[CONF_NETWORKS_TEXT])
-                )
+                networks = parse_networks(ranges)
                 if not networks:
-                    raise ValueError("No ranges given")
-                if count_hosts(networks) > MAX_SCAN_HOSTS:
+                    errors["base"] = "no_ranges"
+                elif count_hosts(networks) > MAX_SCAN_HOSTS:
                     errors["base"] = "range_too_large"
             except ValueError:
                 errors["base"] = "invalid_range"
             else:
-                self._async_save(networks=networks)
-                self._found = await async_scan(networks)
-                return await self.async_step_scan_result()
+                if not errors:
+                    self._async_save(networks=networks)
+                    self._found = await async_scan(networks)
+                    return await self.async_step_scan_result()
         return self.async_show_form(
             step_id="scan_ranges",
             data_schema=vol.Schema(

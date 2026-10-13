@@ -89,6 +89,7 @@
       "cannot_connect": "Cannot reach the miner or read its MAC address.",
       "cannot_remove_last": "At least one miner is required.",
       "invalid_range": "Use IP ranges like 192.168.2.0/24 or single addresses like 192.168.2.154.",
+      "no_ranges": "Enter at least one IP range.",
       "mac_mismatch": "This IP address belongs to a different miner. Enter the address of the selected miner.",
       "range_too_large": "Too many addresses. Keep the total at 1024 or fewer."
     }
